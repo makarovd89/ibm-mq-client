@@ -41,6 +41,7 @@ public class JmsClient {
             System.out.println("\nReceived message:\n" + receivedMessage);
             Files.write(filePath, receivedMessage.getBytes(fileEncoding), CREATE);
         }
+        context.close();
     }
 
     public void put(Path filePath, String fileEncoding) throws IOException {
