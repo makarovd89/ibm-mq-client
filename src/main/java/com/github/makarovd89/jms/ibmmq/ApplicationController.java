@@ -3,12 +3,19 @@ package com.github.makarovd89.jms.ibmmq;
 import com.beust.jcommander.JCommander;
 import com.github.makarovd89.jms.ibmmq.args.JmsConnectionParams;
 import com.github.makarovd89.jms.ibmmq.args.OperationParams;
+import com.github.makarovd89.jms.ibmmq.client.JmsClientFactory;
 
 import javax.jms.JMSException;
 import java.io.IOException;
 import java.nio.file.Path;
 
 public class ApplicationController {
+
+    private JmsClientFactory jmsClientFactory;
+
+    public ApplicationController(JmsClientFactory jmsClientFactory) {
+        this.jmsClientFactory = jmsClientFactory;
+    }
 
     public static void main(String[] args) {
         try {
@@ -23,15 +30,15 @@ public class ApplicationController {
                 jCommander.usage();
                 return;
             }
-            run(jmsConnectionParams, operationParams);
+            new ApplicationController(new JmsClientFactory()).run(jmsConnectionParams, operationParams);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
     }
 
-    private static void run(JmsConnectionParams jmsClientProperties, OperationParams operationParams) throws JMSException, IOException {
-        var jmsClient = createJmsService(jmsClientProperties);
+    private void run(JmsConnectionParams jmsClientProperties, OperationParams operationParams) throws JMSException, IOException {
+        var jmsClient = jmsClientFactory.createJmsClient(jmsClientProperties);
         var filePath = Path.of(operationParams.getFilePath());
         var fileEncoding = operationParams.getFileEncoding();
         switch (operationParams.getOperation()) {
@@ -40,17 +47,5 @@ public class ApplicationController {
             case PUT: jmsClient.put(filePath, fileEncoding);
                 break;
         }
-    }
-
-    private static JmsClient createJmsService(JmsConnectionParams jmsConnectionParams) throws JMSException {
-        return new JmsClient(
-                jmsConnectionParams.getHost(),
-                jmsConnectionParams.getPort(),
-                jmsConnectionParams.getChannel(),
-                jmsConnectionParams.getQueueManager(),
-                jmsConnectionParams.getUser(),
-                jmsConnectionParams.getPassword(),
-                jmsConnectionParams.getQueue()
-        );
     }
 }
