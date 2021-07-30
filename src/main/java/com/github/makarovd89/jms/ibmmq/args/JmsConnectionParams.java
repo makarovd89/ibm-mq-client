@@ -4,25 +4,25 @@ import com.beust.jcommander.Parameter;
 
 public class JmsConnectionParams {
 
-    @Parameter(names = "--host", description = "host", required = true)
+    @Parameter(names = {"--host", "-h"}, description = "host", required = true)
     private String host;
 
-    @Parameter(names = "--port", description = "port", required = true)
+    @Parameter(names = {"--port", "-p"}, description = "port", required = true)
     private int port;
 
-    @Parameter(names = "--channel", description = "channel", required = true)
+    @Parameter(names = {"--channel", "-c"}, description = "channel", required = true)
     private String channel;
 
-    @Parameter(names = "--queue-manager", description = "queue-manager", required = true)
+    @Parameter(names = {"--queue-manager", "-qm"}, description = "queue-manager", required = true)
     private String queueManager;
 
-    @Parameter(names = "--user", description = "user")
-    private String user = "";
+    @Parameter(names = {"--user", "-U"}, description = "user")
+    private String user;
 
-    @Parameter(names = "--password", description = "password")
-    private String password = "";
+    @Parameter(names = {"--password", "-P"}, description = "password", password = true)
+    private String password;
 
-    @Parameter(names = "--queue", description = "queue", required = true)
+    @Parameter(names = {"--queue"}, description = "queue", required = true)
     private String queue;
 
     public String getHost() {

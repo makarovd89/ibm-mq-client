@@ -9,13 +9,13 @@ import static com.github.makarovd89.jms.ibmmq.args.OperationParams.Operation.PUT
 
 public class OperationParams {
 
-    @Parameter(names = "--operation", description = "MQ Client operation", required = true, converter = OperationConverter.class)
+    @Parameter(names = {"--operation", "-o"}, description = "MQ Client operation", required = true, converter = OperationConverter.class)
     private Operation operation;
 
-    @Parameter(names = "--file-path", description = "Path to message file", required = true)
+    @Parameter(names = {"--file-path", "-f"}, description = "Path to message file", required = true)
     private String filePath;
 
-    @Parameter(names = "--file-encoding", description = "Encoding of file")
+    @Parameter(names = {"--file-encoding", "-e"}, description = "Encoding of file")
     private String fileEncoding = "UTF-8";
 
     @Parameter(names = "--help", help = true)

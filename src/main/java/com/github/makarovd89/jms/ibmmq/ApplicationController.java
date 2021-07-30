@@ -12,10 +12,10 @@ public class ApplicationController {
 
     public static void main(String[] args) {
         try {
-            var jmsClientProperties = new JmsConnectionParams();
+            var jmsConnectionParams = new JmsConnectionParams();
             var operationParams  = new OperationParams();
             var jCommander = JCommander.newBuilder()
-                    .addObject(jmsClientProperties)
+                    .addObject(jmsConnectionParams)
                     .addObject(operationParams)
                     .build();
             jCommander.parse(args);
@@ -23,7 +23,7 @@ public class ApplicationController {
                 jCommander.usage();
                 return;
             }
-            run(jmsClientProperties, operationParams);
+            run(jmsConnectionParams, operationParams);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
