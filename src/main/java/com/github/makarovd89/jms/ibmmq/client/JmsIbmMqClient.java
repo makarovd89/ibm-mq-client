@@ -1,8 +1,12 @@
 package com.github.makarovd89.jms.ibmmq.client;
 
+import com.ibm.msg.client.jms.internal.JmsTextMessageImpl;
+
 import javax.jms.Destination;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.Message;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,11 +24,18 @@ public class JmsIbmMqClient implements JmsClient {
     }
 
     @Override
-    public void get(Path filePath, String fileEncoding) throws IOException {
+    public void get(Path filePath, String fileEncoding) throws IOException, JMSException {
         try (JMSConsumer consumer = context.createConsumer(destination)) {
-            String receivedMessage = consumer.receiveBody(String.class, 15000);
-            System.out.println("\nReceived message:\n" + receivedMessage);
-            Files.write(filePath, receivedMessage.getBytes(fileEncoding), CREATE);
+            var message = consumer.receive(15000);
+            byte[] bytes;
+            if (message instanceof JmsTextMessageImpl) {
+                message.getBody(String.class);
+                bytes = message.getBody(String.class).getBytes(fileEncoding);
+            } else {
+                bytes = message.getBody(byte[].class);
+            }
+            System.out.println("\nReceived message:\n" + message);
+            Files.write(filePath, bytes, CREATE);
         }
         context.close();
     }
