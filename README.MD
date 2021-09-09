@@ -12,14 +12,14 @@
 
 #### Show description of command line arguments
 
-`java -jar target/ibm-mq-client.jar --help`
+`java -jar ibm-mq-client.jar --help`
 
 #### Send message
 
-`java -jar target/ibm-mq-client.jar --operation put --file-path msg.txt --host localhost --port 21414 --channel DEV.APP.SVRCONN --queue-manager QM1 --queue DEV.QUEUE.1`
+`java -jar ibm-mq-client.jar --operation put --file-path msg.txt --host localhost --port 21414 --channel DEV.APP.SVRCONN --queue-manager QM1 --queue DEV.QUEUE.1`
 
 #### Receive message
 
-`java -jar target/ibm-mq-client.jar --operation get --file-path $(date -u +%Y-%m-%dT%H:%M:%SZ).txt --host localhost --port 21414 --channel DEV.APP.SVRCONN --queue-manager QM1 --queue DEV.QUEUE.1`
+`java -jar ibm-mq-client.jar --operation get --file-path $(date -u +%Y-%m-%dT%H:%M:%SZ).txt --host localhost --port 21414 --channel DEV.APP.SVRCONN --queue-manager QM1 --queue DEV.QUEUE.1`
 
 

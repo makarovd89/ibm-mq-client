@@ -1,7 +1,7 @@
 package com.github.makarovd89.jms.ibmmq;
 
 import com.beust.jcommander.JCommander;
-import com.github.makarovd89.jms.ibmmq.args.JmsConnectionParams;
+import com.github.makarovd89.jms.ibmmq.args.JmsParams;
 import com.github.makarovd89.jms.ibmmq.args.OperationParams;
 import com.github.makarovd89.jms.ibmmq.client.JmsClientFactory;
 
@@ -19,7 +19,7 @@ public class ApplicationController {
 
     public static void main(String[] args) {
         try {
-            var jmsConnectionParams = new JmsConnectionParams();
+            var jmsConnectionParams = new JmsParams();
             var operationParams  = new OperationParams();
             var jCommander = JCommander.newBuilder()
                     .addObject(jmsConnectionParams)
@@ -30,21 +30,26 @@ public class ApplicationController {
                 jCommander.usage();
                 return;
             }
-            new ApplicationController(new JmsClientFactory()).run(jmsConnectionParams, operationParams);
+
+            new ApplicationController(new JmsClientFactory())
+                    .run(
+                            jmsConnectionParams, operationParams
+                    );
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
     }
 
-    private void run(JmsConnectionParams jmsClientProperties, OperationParams operationParams) throws JMSException, IOException {
-        var jmsClient = jmsClientFactory.createJmsClient(jmsClientProperties);
+    private void run(JmsParams jmsClientProperties, OperationParams operationParams) throws JMSException, IOException {
+        var jmsClient = jmsClientFactory.createJmsClient(
+                jmsClientProperties, operationParams
+        );
         var filePath = Path.of(operationParams.getFilePath());
-        var fileEncoding = operationParams.getFileEncoding();
         switch (operationParams.getOperation()) {
-            case GET: jmsClient.get(filePath, fileEncoding);
+            case GET: jmsClient.get(filePath);
                 break;
-            case PUT: jmsClient.put(filePath, fileEncoding);
+            case PUT: jmsClient.put(filePath);
                 break;
         }
     }

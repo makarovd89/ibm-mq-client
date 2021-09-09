@@ -6,7 +6,7 @@ import java.nio.file.Path;
 
 public interface JmsClient {
 
-    void get(Path filePath, String fileEncoding) throws IOException, JMSException;
+    void get(Path filePath) throws IOException, JMSException;
 
-    void put(Path filePath, String fileEncoding) throws IOException;
+    void put(Path filePath) throws IOException, JMSException;
 }

@@ -9,14 +9,14 @@ import static com.github.makarovd89.jms.ibmmq.args.OperationParams.Operation.PUT
 
 public class OperationParams {
 
-    @Parameter(names = {"--operation", "-o"}, description = "MQ Client operation", required = true, converter = OperationConverter.class)
+    @Parameter(names = {"--operation"}, description = "MQ Client operation", required = true, converter = OperationConverter.class)
     private Operation operation;
 
-    @Parameter(names = {"--file-path", "-f"}, description = "Path to message file", required = true)
+    @Parameter(names = {"--file-path"}, description = "Path to message file", required = true)
     private String filePath;
 
-    @Parameter(names = {"--file-encoding", "-e"}, description = "Encoding of file")
-    private String fileEncoding = "UTF-8";
+    @Parameter(names = {"--encoding"}, description = "Encoding of file")
+    private String encoding = "UTF-8";
 
     @Parameter(names = "--help", help = true)
     private boolean help = false;
@@ -29,8 +29,8 @@ public class OperationParams {
         return filePath;
     }
 
-    public String getFileEncoding() {
-        return fileEncoding;
+    public String getEncoding() {
+        return encoding;
     }
 
     public boolean isHelp() {
@@ -44,14 +44,16 @@ public class OperationParams {
     public static class OperationConverter implements IStringConverter<Operation> {
         @Override
         public Operation convert(String value) {
-            var operationConvertedValue = Operation.valueOf(value.toUpperCase());
-            if (operationConvertedValue == null) {
-                throw new ParameterException(String.format(
-                        "Value: %s Operation can not be converted to Operation. Available values are %s or %s",
-                        value, PUT, GET)
+            try {
+                return Operation.valueOf(value.toUpperCase());
+            } catch (Exception e) {
+                throw new ParameterException(
+                        String.format(
+                                "Value: %s Operation can not be converted to Operation. Available values are %s or %s",
+                                value, PUT, GET
+                        )
                 );
             }
-            return operationConvertedValue;
         }
     }
 }
