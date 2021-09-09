@@ -54,7 +54,6 @@
                             <mainClass>com.github.makarovd89.jms.ibmmq.ApplicationController</mainClass>
                         </manifest>
                     </archive>
-
                 </configuration>
                 <executions>
                     <execution>
@@ -67,7 +66,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 </project>
