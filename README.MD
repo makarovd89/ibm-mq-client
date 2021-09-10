@@ -20,6 +20,6 @@
 
 #### Receive message
 
-`java -jar ibm-mq-client.jar --operation get --file-path destination_file.txt --host localhost --port 21414 --channel DEV.APP.SVRCONN --queue-manager QM1 --queue DEV.QUEUE.1`
+`java -jar ibm-mq-client.jar --operation get --file-path received.txt --host localhost --port 21414 --channel DEV.APP.SVRCONN --queue-manager QM1 --queue DEV.QUEUE.1`
 
 
