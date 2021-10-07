@@ -15,17 +15,24 @@ public class JmsIbmMqClient implements JmsClient {
     private final JMSContext context;
     private final Destination destination;
     private final MessageProcessor messageProcessor;
+    private final int timeout;
 
-    public JmsIbmMqClient(JMSContext context, Destination destination, MessageProcessor messageProcessor) {
+    public JmsIbmMqClient(
+            JMSContext context,
+            Destination destination,
+            MessageProcessor messageProcessor,
+            int timeout) {
+
         this.context = context;
         this.destination = destination;
         this.messageProcessor = messageProcessor;
+        this.timeout = timeout;
     }
 
     @Override
     public void get(Path filePath) throws IOException, JMSException {
         try (JMSConsumer consumer = context.createConsumer(destination)) {
-            var message = consumer.receive(15000);
+            var message = consumer.receive(timeout);
             byte[] bytes = messageProcessor.readMessage(message);
             System.out.println("Received message:\n" + message);
             Files.write(filePath, bytes, CREATE);

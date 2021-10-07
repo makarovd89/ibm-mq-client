@@ -18,7 +18,7 @@ public class JmsClientFactory {
         var context = getJmsContext(jmsParams);
         var destination = context.createQueue("queue:///" + jmsParams.getQueue());
         var messageProcessor = messageProcessor(context, jmsParams, operationParams);
-        return new JmsIbmMqClient(context, destination, messageProcessor);
+        return new JmsIbmMqClient(context, destination, messageProcessor, jmsParams.getTimeout());
     }
 
     private MessageProcessor messageProcessor(JMSContext context, JmsParams jmsParams, OperationParams operationParams) {

@@ -33,6 +33,9 @@ public class JmsParams {
     @Parameter(names = {"--message-type"}, description = "message-type", converter = MessageTypeConverter.class)
     private MessageType messageType = BYTES;
 
+    @Parameter(names = {"--timeout"}, description = "timeout in milliseconds", required = false)
+    private int timeout = 3000;
+
     public String getHost() {
         return host;
     }
@@ -63,6 +66,10 @@ public class JmsParams {
 
     public MessageType getMessageType() {
         return messageType;
+    }
+
+    public int getTimeout() {
+        return timeout;
     }
 
     public enum MessageType {
